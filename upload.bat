@@ -29,9 +29,9 @@ git branch -M main
 
 REM 3. Configure remote
 echo [*] Target Repository:
-echo     https://github.com/kaifzayndev/ZAYKA-RESTAURANT.git
+echo     https://github.com/kaifzayndev/Momento.git
 git remote remove origin >nul 2>nul
-git remote add origin https://github.com/kaifzayndev/ZAYKA-RESTAURANT.git
+git remote add origin https://github.com/kaifzayndev/Momento.git
 
 REM 4. Stage all files
 echo.
@@ -54,7 +54,7 @@ if %errorlevel% equ 0 (
     echo.
     echo ========================================================
     echo  [SUCCESS] All files uploaded to your GitHub repository!
-    echo  https://github.com/kaifzayndev/ZAYKA-RESTAURANT
+    echo  https://github.com/kaifzayndev/Momento
     echo ========================================================
 ) else (
     echo.
