@@ -6,64 +6,63 @@ echo       MOMENTO GALLERY - AUTOMATED GITHUB UPLOADER
 echo ========================================================
 echo.
 
+REM Ensure MinGit is in path if present
+if exist "%LOCALAPPDATA%\Programs\MinGit\cmd\git.exe" (
+    set "PATH=%LOCALAPPDATA%\Programs\MinGit\cmd;%PATH%"
+)
+
 REM 1. Check if git is available
 where git >nul 2>nul
 if %errorlevel% neq 0 (
-    echo [!] Git was not found in your system PATH.
-    echo.
-    echo Please install Git for Windows:
-    echo   https://git-scm.com/download/win
-    echo.
-    echo Once installed, close and re-open this script.
-    echo.
+    echo [!] Git was not found.
+    echo Please install Git from https://git-scm.com/download/win
     pause
     exit /b 1
 )
 
-echo [*] Git detected:
+echo [*] Using Git:
 git --version
 echo.
 
-REM 2. Initialize or re-use existing git repo
-if not exist ".git" (
-    echo [*] Initializing Git repository...
-    git init -b main
-) else (
-    echo [*] Git repository already initialized.
-    git branch -M main
-)
+REM 2. Ensure main branch
+git branch -M main
 
 REM 3. Configure remote
-echo [*] Configuring remote repository:
+echo [*] Target Repository:
 echo     https://github.com/kaifzayndev/ZAYKA-RESTAURANT.git
 git remote remove origin >nul 2>nul
 git remote add origin https://github.com/kaifzayndev/ZAYKA-RESTAURANT.git
 
-REM 4. Stage all changes
+REM 4. Stage all files
 echo.
 echo [*] Staging all files...
 git add .
 
-REM 5. Commit changes
+REM 5. Commit
 echo [*] Committing changes...
-git commit -m "feat: complete modern dark fine-art gallery exhibition system"
+git commit -m "feat: complete modern dark fine-art gallery exhibition system" >nul 2>nul
 
-REM 6. Push to repository
+REM 6. Push to GitHub
 echo.
-echo [*] Pushing to origin main...
+echo [*] Pushing to GitHub (main branch)...
+echo NOTE: If prompted, enter your GitHub Username (kaifzayndev)
+echo and your GitHub Personal Access Token (PAT) as the password.
+echo.
 git push -u origin main --force
 
 if %errorlevel% equ 0 (
     echo.
     echo ========================================================
     echo  [SUCCESS] All files uploaded to your GitHub repository!
-    echo  Repo: https://github.com/kaifzayndev/ZAYKA-RESTAURANT
+    echo  https://github.com/kaifzayndev/ZAYKA-RESTAURANT
     echo ========================================================
 ) else (
     echo.
-    echo [!] Push encountered an issue.
-    echo If GitHub asks for authentication, please sign in or use
-    echo your GitHub Personal Access Token (PAT) as the password.
+    echo [!] Push failed or authentication was cancelled.
+    echo To push with a Personal Access Token:
+    echo 1. Go to https://github.com/settings/tokens
+    echo 2. Generate a Classic Token with 'repo' scope
+    echo 3. Use that token as your password when git prompts.
 )
 
 echo.
