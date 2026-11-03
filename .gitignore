@@ -12,7 +12,6 @@
 /build
 
 # misc
-upload.bat
 .DS_Store
 .env.local
 .env.development.local
